@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="lg:col-span-4 flex flex-col gap-6">
             <PolarisLogo light={true} />
             <p className="text-xs text-ivory/70 leading-relaxed font-light mt-2 max-w-sm">
-              Designed for Living. Built for Generations. Securing architectural masterworks and establishing legacy residential developments across premier global locations.
+              Designed for Living. Built for Generations. Securing architectural masterworks and establishing legacy residential developments across BC
             </p>
             <div className="flex gap-4 items-center">
               <a

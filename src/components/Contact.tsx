@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Mail, Phone, MapPin, Clock, ArrowRight, CheckCircle2, Building, X } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowRight, CheckCircle2, Building, X } from "lucide-react";
 
 interface ContactProps {
   preselectedProperty?: string;
@@ -14,7 +14,7 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
     lastName: "",
     email: "",
     phone: "",
-    interest: "Current Homes",
+    interests: ["CURRENT HOMES"] as string[],
     keepInformed: true,
     message: "",
   });
@@ -26,7 +26,7 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
     if (preselectedProperty) {
       setFormData((prev) => ({
         ...prev,
-        interest: "Current Homes",
+        interests: prev.interests.includes("CURRENT HOMES") ? prev.interests : [...prev.interests, "CURRENT HOMES"],
         message: `I am interested in receiving detailed architectural specifications and inquiry information for ${preselectedProperty}.`,
       }));
     }
@@ -43,7 +43,7 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
         lastName: "",
         email: "",
         phone: "",
-        interest: "Current Homes",
+        interests: ["CURRENT HOMES"],
         keepInformed: true,
         message: "",
       });
@@ -53,7 +53,7 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
     }, 1500);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
@@ -63,11 +63,23 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
     }
   };
 
+  const toggleInterest = (opt: string) => {
+    setFormData((prev) => {
+      const exists = prev.interests.includes(opt);
+      if (exists) {
+        if (prev.interests.length === 1) return prev; // Maintain at least one selection
+        return { ...prev, interests: prev.interests.filter((item) => item !== opt) };
+      } else {
+        return { ...prev, interests: [...prev.interests, opt] };
+      }
+    });
+  };
+
   const interestsOptions = [
-    "Current Homes",
-    "Upcoming Projects",
-    "Future Opportunities",
-    "General Inquiries",
+    "CURRENT HOMES",
+    "UPCOMING PROJECTS",
+    "FUTURE OPPORTUNITIES",
+    "GENERAL INQUIRIES",
   ];
 
   return (
@@ -80,14 +92,14 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
           <div className="lg:col-span-5 flex flex-col justify-between h-full">
             <div>
               <span className="text-gold tracking-[0.3em] font-sans text-xs uppercase mb-3 block font-semibold">
-                Private Inquiries
+                Private Consultation
               </span>
               <h2 className="font-serif text-4xl sm:text-5xl font-light tracking-tight mb-4">
-                Let’s Connect!
+                Begin a Conversation
               </h2>
               <div className="h-[1px] w-20 bg-gold mb-6" />
               <p className="font-sans text-sm text-navy/70 leading-relaxed font-light mb-10 max-w-md">
-                Whether you’re seeking a place to call home, seeking information about an upcoming project, or simply want to stay connected, we’d love to hear from you.
+                Whether you are looking for a place to call home, seeking information about an upcoming project, or simply wish to stay connected, we welcome your inquiry.
               </p>
             </div>
 
@@ -255,26 +267,35 @@ export default function Contact({ preselectedProperty, onClearPreselectedPropert
                   </div>
                 </div>
 
-                {/* I'm Interested In: Selectors */}
+                {/* Multi-Select Interest Fields */}
                 <div>
-                  <label className="block text-xs font-sans tracking-[0.2em] uppercase text-navy/60 mb-3 font-semibold">
-                    I&apos;m interested in:
-                  </label>
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="block text-xs font-sans tracking-[0.2em] uppercase text-navy/60 font-semibold">
+                      I&apos;M INTERESTED IN:
+                    </label>
+                    <span className="text-[10px] text-navy/40 tracking-wider font-sans uppercase">
+                      Select all that apply
+                    </span>
+                  </div>
+
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    {interestsOptions.map((opt) => (
-                      <button
-                        type="button"
-                        key={opt}
-                        onClick={() => setFormData((prev) => ({ ...prev, interest: opt }))}
-                        className={`px-3 py-2.5 text-[11px] font-sans tracking-wider uppercase border transition-all duration-300 text-center ${
-                          formData.interest === opt
-                            ? "border-gold bg-navy text-gold font-semibold shadow-md"
-                            : "border-navy/15 bg-transparent text-navy/70 hover:border-gold/50 hover:text-navy"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
+                    {interestsOptions.map((opt) => {
+                      const isActive = formData.interests.includes(opt);
+                      return (
+                        <button
+                          type="button"
+                          key={opt}
+                          onClick={() => toggleInterest(opt)}
+                          className={`px-3 py-2.5 text-[10px] font-sans tracking-wider uppercase border transition-all duration-300 text-center ${
+                            isActive
+                              ? "border-gold bg-navy text-gold font-semibold shadow-md ring-1 ring-gold/40"
+                              : "border-navy/15 bg-transparent text-navy/70 hover:border-gold/50 hover:text-navy"
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 

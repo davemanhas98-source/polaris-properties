@@ -170,7 +170,7 @@ export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-xl">
-            <span className="text-gold tracking-[0.3em] font-sans text-xs uppercase mb-3 block">
+            <span className="text-gold tracking-[0.3em] font-sans text-xs uppercase mb-3 block font-semibold">
               Curated Portfolio
             </span>
             <h2 className="font-serif text-4xl sm:text-5xl font-light text-navy tracking-tight">
@@ -184,14 +184,17 @@ export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps
           </p>
         </div>
 
-        {/* Square-Proportioned Cards Grid */}
+        {/* Square Cards Grid with Gold Gradient Borders & Soft Ambient Hover Glow */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-12">
           {PROPERTIES.map((property) => (
             <div
               key={property.id}
               onClick={() => openModal(property)}
-              className="group relative cursor-pointer overflow-hidden border border-gold/15 bg-ivory shadow-lg hover:shadow-2xl transition-all duration-500"
+              className="group relative cursor-pointer overflow-hidden border border-gold/25 bg-navy-light/20 shadow-xl hover:shadow-2xl hover:shadow-gold/20 hover:border-gold/60 transition-all duration-500"
             >
+              {/* Subtle Gold Gradient Top Accent Line */}
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-gold via-gold-light to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+
               {/* Square Aspect Image Container */}
               <div className="relative aspect-square w-full overflow-hidden bg-navy-dark">
                 <img
@@ -204,7 +207,7 @@ export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
                 
                 {/* Status Badge */}
-                <div className="absolute top-6 right-6">
+                <div className="absolute top-6 right-6 z-10">
                   <span className={`px-3.5 py-1.5 text-[10px] font-sans tracking-[0.25em] uppercase ${getStatusBadgeStyle(property.status)}`}>
                     {property.status}
                   </span>
@@ -237,9 +240,9 @@ export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps
         </div>
       </div>
 
-      {/* Interactive Detail Modal Drawer */}
+      {/* Interactive Detail Modal Drawer with Slightly Transparent Backdrop & Strict Aspect-Ratio Carousel Frame */}
       {selectedProperty && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-navy/95 backdrop-blur-lg transition-all duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-navy/80 backdrop-blur-md transition-all duration-300">
           <div className="relative w-full max-w-5xl bg-ivory border border-gold/30 shadow-2xl flex flex-col lg:flex-row overflow-hidden max-h-[90vh] lg:max-h-[85vh]">
             
             {/* Close Modal Button */}
@@ -251,8 +254,8 @@ export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps
               <X size={20} />
             </button>
 
-            {/* Left/Top: Interactive Photo Carousel */}
-            <div className="w-full lg:w-3/5 relative bg-navy-dark h-[300px] sm:h-[400px] lg:h-auto min-h-[300px]">
+            {/* Left/Top: Interactive Photo Carousel with Fixed Uniform Aspect-Ratio Frame */}
+            <div className="w-full lg:w-3/5 relative bg-navy-dark aspect-[16/10] overflow-hidden flex items-center justify-center">
               <img
                 src={selectedProperty.images[activeImageIndex]}
                 alt={`${selectedProperty.name} view ${activeImageIndex + 1}`}
@@ -271,14 +274,14 @@ export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps
                 <>
                   <button
                     onClick={handlePrevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-navy/70 hover:bg-navy text-gold p-2 border border-gold/30 transition-all duration-300"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-navy/70 hover:bg-navy text-gold p-2 border border-gold/30 transition-all duration-300 z-10"
                     aria-label="Previous photo"
                   >
                     <ChevronLeft size={20} />
                   </button>
                   <button
                     onClick={handleNextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-navy/70 hover:bg-navy text-gold p-2 border border-gold/30 transition-all duration-300"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-navy/70 hover:bg-navy text-gold p-2 border border-gold/30 transition-all duration-300 z-10"
                     aria-label="Next photo"
                   >
                     <ChevronRight size={20} />

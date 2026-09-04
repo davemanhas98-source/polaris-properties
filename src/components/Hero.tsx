@@ -15,9 +15,9 @@ export default function Hero() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Tagline fade out and translate down as user scrolls down past 0 to ~200px
-  const taglineOpacity = Math.max(0, 1 - scrollY / 180);
-  const taglineTranslateY = Math.min(24, scrollY / 6);
+  // Extended tagline fade out threshold so user can scroll further down before transition to opacity-0
+  const taglineOpacity = Math.max(0, 1 - scrollY / 450);
+  const taglineTranslateY = Math.min(32, scrollY / 12);
 
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden bg-navy-dark">
@@ -37,7 +37,7 @@ export default function Hero() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center text-ivory flex flex-col items-center justify-center h-full pt-16">
         
         {/* Subtitle Badge */}
-        <span className="text-gold tracking-[0.4em] font-sans text-xs md:text-sm uppercase mb-6 opacity-90 block">
+        <span className="text-gold tracking-[0.4em] font-sans text-xs md:text-sm uppercase mb-6 opacity-90 block font-semibold">
           Architectural Real Estate
         </span>
 
@@ -52,7 +52,7 @@ export default function Hero() {
             opacity: taglineOpacity,
             transform: `translateY(${taglineTranslateY}px)`,
           }}
-          className="transition-opacity duration-150 ease-out flex flex-col items-center"
+          className="transition-opacity duration-200 ease-out flex flex-col items-center"
         >
           <p className="font-serif text-2xl sm:text-3xl md:text-4xl text-gold-light italic font-normal tracking-wide max-w-3xl mb-10">
             Designed for Living. Built for Generations.
@@ -78,13 +78,12 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Down Indicator */}
+      {/* Enlarged Standalone Chevron Scroll Indicator */}
       <div 
         style={{ opacity: taglineOpacity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-ivory/50 transition-opacity duration-200"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center text-gold/80 transition-opacity duration-200"
       >
-        <span className="text-[9px] tracking-[0.3em] font-sans uppercase mb-2">Scroll</span>
-        <ChevronDown size={16} className="animate-bounce text-gold" />
+        <ChevronDown size={28} className="animate-bounce stroke-[1.5]" />
       </div>
     </section>
   );

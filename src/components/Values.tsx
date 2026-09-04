@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Compass, Sparkles, Heart, Shield, Users, Layers } from "lucide-react";
+import { Compass, Sparkles, Heart, Shield, Users } from "lucide-react";
 
 interface Pillar {
   id: string;
@@ -13,35 +13,35 @@ interface Pillar {
 
 const PILLARS: Pillar[] = [
   {
-    id: "01",
+    id: "intentional-living",
     title: "Intentional Living",
     subtitle: "Purposeful design",
     description: "We believe thoughtful design begins with intention. From the orientation of a home to the fine material details. Every detail should enhance the way people live.",
     icon: Compass,
   },
   {
-    id: "02",
+    id: "human-centric",
     title: "Human Centric",
     subtitle: "Designed around people",
     description: "A home should serve the people who live in it. We prioritize comfort, functionality and individuality in a way that makes everyday living feel effortless.",
     icon: Users,
   },
   {
-    id: "03",
+    id: "endurance",
     title: "Endurance",
     subtitle: "Built for generations",
     description: "We build beyond the moment. Through architecture, quality, thoughtful construction and design. We create homes meant to age beautifully with you.",
     icon: Shield,
   },
   {
-    id: "04",
+    id: "connection",
     title: "Connection",
     subtitle: "Creating places to belong",
     description: "A home is part of something larger. We consider the people, home and neighbourhoods to create a genuine sense of belonging.",
     icon: Heart,
   },
   {
-    id: "05",
+    id: "intelligent-luxury",
     title: "Intelligent Luxury",
     subtitle: "Exceptional, never excessive",
     description: "We believe luxury is not about having more. It is about making better choices through intentional materials, meaningful details and thoughtful functionality, in a space curated to you.",
@@ -106,28 +106,28 @@ export default function Values() {
           <div className="h-[1px] w-24 bg-gold mx-auto mt-6" />
         </div>
 
-        {/* Mission Statement Block */}
-        <div className="max-w-4xl mx-auto mb-24 border border-gold/25 bg-navy-light/30 p-8 sm:p-12 text-center relative shadow-2xl">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy px-4 text-gold text-xs tracking-[0.25em] uppercase font-sans font-semibold">
-            Mission Statement
+        {/* Our Mission Box with Rotating Animated Gold Border Beam & Ambient Glow */}
+        <div className="animated-border-beam max-w-4xl mx-auto mb-24 border border-gold/30 bg-navy-light/40 p-8 sm:p-12 text-center relative shadow-xl hover:shadow-2xl hover:shadow-gold/20 hover:border-gold/60 transition-all duration-500 group rounded-none">
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-navy px-5 text-gold text-xs tracking-[0.25em] uppercase font-sans font-semibold border border-gold/30">
+            Our Mission
           </div>
-          <blockquote className="font-serif text-xl sm:text-2xl md:text-3xl font-light text-ivory/90 leading-relaxed italic">
-            &ldquo;To design and engineer timeless, intentionally curated communities that bring everyday luxury to life, putting the people who live in them at the forefront of every square foot we build.&rdquo;
-          </blockquote>
+          <p className="font-serif text-xl sm:text-2xl md:text-3xl font-light text-ivory/95 leading-relaxed italic">
+            To design and engineer timeless, intentionally curated communities that bring everyday luxury to life, putting the people who live in them at the forefront of every square foot we build.
+          </p>
         </div>
 
-        {/* The Pillars of Polaris Grid (5 Items with Hover/Tap Reveal) */}
+        {/* Our Philosophies & Pillars (Centered Grid with Fixed Uniform Height and Hover Reveal) */}
         <div className="mb-28">
           <div className="text-center mb-12">
             <span className="text-gold tracking-[0.25em] font-sans text-xs uppercase block mb-2 font-semibold">
-              Core Philosophies
+              Our Philosophies
             </span>
             <h3 className="font-serif text-3xl sm:text-4xl font-light tracking-wide">
               The Pillars of Polaris
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
             {PILLARS.map((pillar) => {
               const Icon = pillar.icon;
               const isSelected = activePillar === pillar.id;
@@ -136,46 +136,45 @@ export default function Values() {
                 <div
                   key={pillar.id}
                   onClick={() => togglePillar(pillar.id)}
-                  className={`group cursor-pointer relative border transition-all duration-500 p-8 flex flex-col justify-between min-h-[260px] ${
+                  className={`group cursor-pointer relative border transition-all duration-500 ease-out p-8 flex flex-col justify-between w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)] h-[300px] overflow-hidden ${
                     isSelected
-                      ? "border-gold bg-navy-light/70 shadow-2xl shadow-gold/10"
-                      : "border-gold/15 bg-navy-light/30 hover:border-gold/50 hover:bg-navy-light/60"
+                      ? "border-gold bg-navy-light/75 shadow-2xl shadow-gold/20"
+                      : "border-gold/20 bg-navy-light/30 hover:border-gold/60 hover:bg-navy-light/65 hover:shadow-xl hover:shadow-gold/10"
                   }`}
                 >
-                  {/* Accent Top Border */}
+                  {/* Subtle Accent Top Line */}
                   <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-gold via-gold-light to-transparent opacity-40 group-hover:opacity-100 transition-opacity duration-300" />
 
                   <div>
-                    {/* Header line with Icon & Number */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="text-gold group-hover:text-gold-light transition-colors p-2 bg-navy-dark/40 border border-gold/20">
-                        <Icon size={24} strokeWidth={1.5} />
+                    {/* Header line with Icon */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="text-gold group-hover:text-gold-light transition-colors p-2.5 bg-navy-dark/50 border border-gold/30">
+                        <Icon size={22} strokeWidth={1.5} />
                       </div>
-                      <span className="font-serif text-2xl italic text-gold/40 font-light">
-                        {pillar.id}
-                      </span>
                     </div>
 
                     {/* Title & Subtitle (Permanently Displayed) */}
                     <h4 className="font-serif text-2xl font-light text-ivory group-hover:text-gold transition-colors mb-1">
                       {pillar.title}
                     </h4>
-                    <p className="font-serif italic text-sm text-gold-light/90 mb-4">
+                    <p className="font-serif italic text-xs text-gold-light/90">
                       {pillar.subtitle}
                     </p>
                   </div>
 
-                  {/* Smooth Hover / Tap Revealed Description */}
+                  {/* Smooth Hover / Tap Revealed Description with Standardized Divider Rule */}
                   <div
-                    className={`transition-all duration-500 ease-in-out ${
+                    className={`transition-all duration-500 ease-out ${
                       isSelected
-                        ? "opacity-100 max-h-48 mt-2"
-                        : "opacity-80 md:opacity-0 max-h-0 md:group-hover:opacity-100 md:group-hover:max-h-48 group-hover:mt-2"
+                        ? "opacity-100 max-h-40"
+                        : "opacity-80 md:opacity-0 max-h-0 md:group-hover:opacity-100 md:group-hover:max-h-40"
                     } overflow-hidden`}
                   >
-                    <p className="font-sans text-xs text-ivory/70 leading-relaxed font-light border-t border-gold/15 pt-3">
-                      {pillar.description}
-                    </p>
+                    <div className="border-t border-gold/25 pt-3.5 mt-3">
+                      <p className="font-sans text-xs text-ivory/75 leading-relaxed font-light">
+                        {pillar.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );
@@ -196,7 +195,7 @@ export default function Values() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
-            {PROCESS_STEPS.map((stepItem, idx) => (
+            {PROCESS_STEPS.map((stepItem) => (
               <div
                 key={stepItem.number}
                 className="relative border-l md:border-l-0 md:border-t border-gold/20 pt-6 pl-6 md:pl-0 md:pt-8 flex flex-col justify-between group hover:border-gold transition-colors duration-300"
