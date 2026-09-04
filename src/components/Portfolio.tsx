@@ -1,158 +1,234 @@
 "use client";
 
 import React, { useState } from "react";
-import { Maximize2, MapPin, DollarSign, Home, Compass, X } from "lucide-react";
+import { MapPin, Maximize2, X, ChevronLeft, ChevronRight, CheckCircle2, ArrowRight } from "lucide-react";
 
-interface Property {
+export interface Property {
   id: number;
-  title: string;
-  category: "coastal" | "mountain" | "metropolitan";
+  name: string;
   location: string;
   price: string;
+  status: "Available" | "Coming Soon" | "Sold";
   beds: number;
   baths: number;
   size: string;
-  image: string;
-  description: string;
+  images: string[];
+  summary: string;
+  features: string[];
 }
 
-const PROPERTIES: Property[] = [
+export const PROPERTIES: Property[] = [
   {
     id: 1,
-    title: "The Obsidian Villa",
-    category: "coastal",
+    name: "The Obsidian Villa",
     location: "Malibu, California",
     price: "$28,500,000",
+    status: "Available",
     beds: 5,
     baths: 6.5,
     size: "8,200 sq ft",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-    description: "A striking masterwork of raw architectural concrete and floor-to-ceiling structural glass, dramatically cantilevering over the Pacific Ocean. Features a cascading negative-edge pool and private beach access.",
+    images: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80"
+    ],
+    summary: "A striking masterwork of raw architectural concrete and floor-to-ceiling structural glass, dramatically cantilevering over the Pacific Ocean. Designed for intentional indoor-outdoor living.",
+    features: [
+      "Board-formed architectural concrete walls with thermal insulation",
+      "Full-height motorized Fleetwood glass sliding wall system",
+      "Negative-edge saltwater infinity pool overlooking the ocean",
+      "Imported Italian travertine hearth and custom terrazzo flooring",
+      "Automated Lutron Homeworks QSX lighting and shade integration"
+    ]
   },
   {
     id: 2,
-    title: "Elysian Estate",
-    category: "mountain",
+    name: "Elysian Estate",
     location: "Aspen, Colorado",
     price: "$34,000,000",
+    status: "Coming Soon",
     beds: 6,
     baths: 8,
     size: "11,400 sq ft",
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
-    description: "An organic modern estate integrating locally sourced stone, heavy timber, and dark bronze. Nestled within a mature forest with direct ski-in/ski-out access and framed mountain vistas.",
+    images: [
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    summary: "An organic modern lodge seamlessly integrated into a mature Aspen pine forest. Features direct ski-in/ski-out access, hand-chiseled stone, and expansive mountain vistas.",
+    features: [
+      "Hand-chiseled Colorado fieldstone masonry and heavy timber trusses",
+      "Custom bronze-clad window assemblies with solar heat control",
+      "Private wellness spa with cedar sauna, steam bath, and cold plunge",
+      "Heated stone motor court and custom copper roofing",
+      "Geothermal climate control system with radiant floor heating"
+    ]
   },
   {
     id: 3,
-    title: "Lumina Heights Penthouse",
-    category: "metropolitan",
+    name: "Lumina Heights Penthouse",
     location: "New York, New York",
     price: "$19,200,000",
+    status: "Available",
     beds: 3,
     baths: 3.5,
     size: "4,500 sq ft",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-    description: "A dual-floor glass sanctuary floating above Manhattan. Featuring soaring double-height ceilings, a custom sculptural staircase, and a private sky deck with a plunge pool.",
+    images: [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80"
+    ],
+    summary: "A dual-floor glass sanctuary floating high above Manhattan. Features 22-foot double-height ceilings, a private elevator foyer, and panoramic city skyline views.",
+    features: [
+      "22-foot double-height living room gallery with panoramic skyline views",
+      "Sculptural architectural staircase crafted from solid burnished bronze",
+      "Calacatta Oro marble kitchen island with custom Poliform cabinetry",
+      "Private rooftop sky terrace featuring a heated hydrotherapy pool",
+      "Acoustic triple-pane curtain wall assembly for supreme quietude"
+    ]
   },
   {
     id: 4,
-    title: "Vespera Cove",
-    category: "coastal",
+    name: "Vespera Cove",
     location: "Amalfi Coast, Italy",
     price: "$42,000,000",
+    status: "Sold",
     beds: 7,
     baths: 9,
     size: "13,000 sq ft",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-    description: "A historic cliffside palazzo restored into a contemporary masterpiece. Overlooks the Tyrrhenian Sea with multiple tiered limestone terraces, olive groves, and a private funicular.",
-  },
+    images: [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"
+    ],
+    summary: "A restored cliffside palazzo combining classic Mediterranean stonework with ultra-modern minimalist luxury interiors overlooking the Tyrrhenian Sea.",
+    features: [
+      "Private cliffside funicular railway linking main residence to private sea cove",
+      "Restored 18th-century limestone exterior walls with contemporary insulation",
+      "Custom oiled Italian walnut millwork and minimalist bronzed steel doors",
+      "Multiple tiered limestone dining terraces framed by ancient olive groves",
+      "Helipad access and private deep-water yacht mooring"
+    ]
+  }
 ];
 
-export default function Portfolio() {
-  const [filter, setFilter] = useState<string>("all");
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+interface PortfolioProps {
+  onSelectPropertyForInquiry?: (propertyName: string) => void;
+}
 
-  const filteredProperties = filter === "all" 
-    ? PROPERTIES 
-    : PROPERTIES.filter((p) => p.category === filter);
+export default function Portfolio({ onSelectPropertyForInquiry }: PortfolioProps) {
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const openModal = (property: Property) => {
+    setSelectedProperty(property);
+    setActiveImageIndex(0);
+  };
+
+  const closeModal = () => {
+    setSelectedProperty(null);
+  };
+
+  const handleNextImage = () => {
+    if (!selectedProperty) return;
+    setActiveImageIndex((prev) => (prev + 1) % selectedProperty.images.length);
+  };
+
+  const handlePrevImage = () => {
+    if (!selectedProperty) return;
+    setActiveImageIndex((prev) => (prev - 1 + selectedProperty.images.length) % selectedProperty.images.length);
+  };
+
+  const handleRequestInfo = (propertyName: string) => {
+    closeModal();
+    if (onSelectPropertyForInquiry) {
+      onSelectPropertyForInquiry(propertyName);
+    }
+    const inquirySection = document.getElementById("inquiries");
+    if (inquirySection) {
+      inquirySection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const getStatusBadgeStyle = (status: Property["status"]) => {
+    switch (status) {
+      case "Available":
+        return "bg-navy/80 text-gold border border-gold/40 backdrop-blur-sm";
+      case "Coming Soon":
+        return "bg-gold/90 text-navy border border-gold font-semibold backdrop-blur-sm";
+      case "Sold":
+        return "bg-navy-dark/90 text-ivory/50 border border-ivory/20 backdrop-blur-sm";
+      default:
+        return "bg-navy/80 text-gold border border-gold/30";
+    }
+  };
 
   return (
-    <section id="portfolio" className="py-24 bg-ivory-dark/30 border-b border-gold/10">
+    <section id="portfolio" className="py-28 bg-ivory text-navy border-b border-gold/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-xl">
             <span className="text-gold tracking-[0.3em] font-sans text-xs uppercase mb-3 block">
-              Curated Showcase
+              Curated Portfolio
             </span>
-            <h2 className="font-serif text-4xl md:text-5xl font-light text-navy tracking-wide">
-              Architectural Masterworks
+            <h2 className="font-serif text-4xl sm:text-5xl font-light text-navy tracking-tight">
+              Our Homes
             </h2>
             <div className="h-[1px] w-20 bg-gold mt-4" />
           </div>
 
-          {/* Filter Bar */}
-          <div className="flex flex-wrap gap-4 font-sans text-xs tracking-[0.2em] uppercase">
-            {["all", "coastal", "mountain", "metropolitan"].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`px-4 py-2 border transition-all duration-300 ${
-                  filter === cat
-                    ? "border-gold bg-gold text-navy font-semibold"
-                    : "border-navy/10 hover:border-gold/50 text-navy/70 hover:text-navy"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          <p className="font-sans text-xs text-navy/60 max-w-md font-light leading-relaxed">
+            A limited collection of residential architectural masterworks built for endurance, quiet beauty, and refined daily living.
+          </p>
         </div>
 
-        {/* Property Grid */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {filteredProperties.map((property) => (
+        {/* Square-Proportioned Cards Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-12">
+          {PROPERTIES.map((property) => (
             <div
               key={property.id}
-              onClick={() => setSelectedProperty(property)}
-              className="group relative cursor-pointer overflow-hidden border border-gold/10 bg-ivory"
+              onClick={() => openModal(property)}
+              className="group relative cursor-pointer overflow-hidden border border-gold/15 bg-ivory shadow-lg hover:shadow-2xl transition-all duration-500"
             >
-              {/* Image with hover scale */}
-              <div className="relative h-[350px] lg:h-[450px] w-full overflow-hidden bg-navy">
+              {/* Square Aspect Image Container */}
+              <div className="relative aspect-square w-full overflow-hidden bg-navy-dark">
                 <img
-                  src={property.image}
-                  alt={property.title}
+                  src={property.images[0]}
+                  alt={property.name}
                   className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
                 />
+                
                 {/* Visual Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
-                <div className="absolute top-6 right-6 border border-gold/20 bg-navy/60 backdrop-blur-sm text-gold px-3.5 py-1.5 text-[10px] tracking-[0.2em] uppercase">
-                  {property.category}
-                </div>
-              </div>
-
-              {/* Text Content Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 text-ivory translate-y-6 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                <div className="flex items-center gap-2 text-gold text-xs tracking-widest uppercase mb-2">
-                  <MapPin size={12} />
-                  <span>{property.location}</span>
-                </div>
-                <h3 className="font-serif text-2xl lg:text-3xl font-light tracking-wide mb-2">
-                  {property.title}
-                </h3>
-                <div className="text-gold font-serif text-lg lg:text-xl font-light mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                  {property.price}
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+                
+                {/* Status Badge */}
+                <div className="absolute top-6 right-6">
+                  <span className={`px-3.5 py-1.5 text-[10px] font-sans tracking-[0.25em] uppercase ${getStatusBadgeStyle(property.status)}`}>
+                    {property.status}
+                  </span>
                 </div>
 
-                {/* Card footer details */}
-                <div className="flex justify-between items-center pt-4 border-t border-ivory/15 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
-                  <div className="flex gap-6 text-xs text-ivory/60 font-light tracking-wide">
-                    <span>{property.beds} Beds</span>
-                    <span>{property.baths} Baths</span>
-                    <span>{property.size}</span>
+                {/* Card Information Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-8 text-ivory flex flex-col justify-end">
+                  <div className="flex items-center gap-2 text-gold text-xs tracking-widest uppercase mb-2">
+                    <MapPin size={12} />
+                    <span>{property.location}</span>
                   </div>
-                  <div className="text-gold flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase font-semibold">
-                    <span>View Details</span>
-                    <Maximize2 size={12} />
+
+                  <h3 className="font-serif text-3xl font-light tracking-wide mb-2 group-hover:text-gold-light transition-colors">
+                    {property.name}
+                  </h3>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-ivory/20">
+                    <span className="text-gold font-serif text-xl font-light">
+                      {property.price}
+                    </span>
+                    <div className="flex items-center gap-1 text-[10px] tracking-[0.2em] uppercase font-semibold text-ivory/80 group-hover:text-gold transition-colors">
+                      <span>Explore Detail</span>
+                      <Maximize2 size={12} />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -161,78 +237,135 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* Property Details Modal */}
+      {/* Interactive Detail Modal Drawer */}
       {selectedProperty && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/95 backdrop-blur-md transition-opacity duration-300">
-          <div className="relative w-full max-w-4xl bg-ivory border border-gold/20 shadow-2xl flex flex-col md:flex-row overflow-hidden max-h-[90vh] md:max-h-none overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 bg-navy/95 backdrop-blur-lg transition-all duration-300">
+          <div className="relative w-full max-w-5xl bg-ivory border border-gold/30 shadow-2xl flex flex-col lg:flex-row overflow-hidden max-h-[90vh] lg:max-h-[85vh]">
             
-            {/* Close Button */}
+            {/* Close Modal Button */}
             <button
-              onClick={() => setSelectedProperty(null)}
-              className="absolute top-6 right-6 z-10 text-navy hover:text-gold transition-colors p-2 bg-ivory/80 backdrop-blur-sm"
+              onClick={closeModal}
+              className="absolute top-4 right-4 z-20 text-navy hover:text-gold transition-colors p-2.5 bg-ivory/90 backdrop-blur-md rounded-none border border-gold/20"
               aria-label="Close modal"
             >
               <X size={20} />
             </button>
 
-            {/* Modal Image */}
-            <div className="w-full md:w-1/2 h-[300px] md:h-auto min-h-[300px] relative bg-navy">
+            {/* Left/Top: Interactive Photo Carousel */}
+            <div className="w-full lg:w-3/5 relative bg-navy-dark h-[300px] sm:h-[400px] lg:h-auto min-h-[300px]">
               <img
-                src={selectedProperty.image}
-                alt={selectedProperty.title}
-                className="w-full h-full object-cover"
+                src={selectedProperty.images[activeImageIndex]}
+                alt={`${selectedProperty.name} view ${activeImageIndex + 1}`}
+                className="w-full h-full object-cover transition-all duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent" />
+
+              {/* Status Badge in Carousel */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className={`px-3 py-1 text-[10px] font-sans tracking-[0.2em] uppercase ${getStatusBadgeStyle(selectedProperty.status)}`}>
+                  {selectedProperty.status}
+                </span>
+              </div>
+
+              {/* Carousel Next/Prev Controls */}
+              {selectedProperty.images.length > 1 && (
+                <>
+                  <button
+                    onClick={handlePrevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-navy/70 hover:bg-navy text-gold p-2 border border-gold/30 transition-all duration-300"
+                    aria-label="Previous photo"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-navy/70 hover:bg-navy text-gold p-2 border border-gold/30 transition-all duration-300"
+                    aria-label="Next photo"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </>
+              )}
+
+              {/* Thumbnail Gallery Indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10 bg-navy/80 p-1.5 backdrop-blur-md border border-gold/20">
+                {selectedProperty.images.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`w-2.5 h-2.5 transition-all duration-300 ${
+                      activeImageIndex === idx ? "bg-gold w-6" : "bg-ivory/40 hover:bg-ivory/80"
+                    }`}
+                    aria-label={`View photo ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
-            {/* Modal Details */}
-            <div className="w-full md:w-1/2 p-8 lg:p-12 flex flex-col justify-between text-navy bg-ivory">
+            {/* Right/Bottom: Property Specifications & Architectural Details */}
+            <div className="w-full lg:w-2/5 p-8 lg:p-10 flex flex-col justify-between overflow-y-auto bg-ivory text-navy">
               <div>
-                <span className="text-gold tracking-[0.25em] text-xs font-semibold uppercase block mb-2">
-                  Exclusive Representation
+                <span className="text-gold tracking-[0.25em] text-xs font-semibold uppercase block mb-1">
+                  Architectural Residence
                 </span>
                 <h3 className="font-serif text-3xl lg:text-4xl font-light tracking-wide mb-1">
-                  {selectedProperty.title}
+                  {selectedProperty.name}
                 </h3>
-                <p className="text-gold font-serif text-xl font-light mb-6">
+                <p className="text-gold font-serif text-2xl font-light mb-4">
                   {selectedProperty.price}
                 </p>
 
-                <div className="flex items-center gap-2 text-navy/60 text-sm mb-6">
-                  <MapPin size={16} className="text-gold" />
+                <div className="flex items-center gap-2 text-navy/60 text-xs mb-6">
+                  <MapPin size={14} className="text-gold" />
                   <span>{selectedProperty.location}</span>
                 </div>
 
-                <p className="font-sans text-sm text-navy/70 leading-relaxed font-light mb-8">
-                  {selectedProperty.description}
+                {/* Specs Pill Grid */}
+                <div className="grid grid-cols-3 gap-2 py-3 border-y border-gold/20 text-center mb-6 bg-navy-light/5">
+                  <div>
+                    <span className="text-[9px] text-navy/50 tracking-widest uppercase block">Bedrooms</span>
+                    <span className="font-serif text-base text-navy font-semibold">{selectedProperty.beds}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-navy/50 tracking-widest uppercase block">Bathrooms</span>
+                    <span className="font-serif text-base text-navy font-semibold">{selectedProperty.baths}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-navy/50 tracking-widest uppercase block">Footage</span>
+                    <span className="font-serif text-base text-navy font-semibold">{selectedProperty.size}</span>
+                  </div>
+                </div>
+
+                {/* Summary */}
+                <p className="font-sans text-xs text-navy/70 leading-relaxed font-light mb-6">
+                  {selectedProperty.summary}
                 </p>
 
-                {/* Specs Details Grid */}
-                <div className="grid grid-cols-3 gap-4 py-4 border-t border-b border-gold/25 text-center mb-8">
-                  <div>
-                    <span className="text-[10px] text-navy/40 font-semibold tracking-widest uppercase block mb-1">Bedrooms</span>
-                    <span className="font-serif text-lg text-navy">{selectedProperty.beds}</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-navy/40 font-semibold tracking-widest uppercase block mb-1">Bathrooms</span>
-                    <span className="font-serif text-lg text-navy">{selectedProperty.baths}</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-navy/40 font-semibold tracking-widest uppercase block mb-1">Area</span>
-                    <span className="font-serif text-lg text-navy">{selectedProperty.size}</span>
-                  </div>
+                {/* Architectural Features Bullet List */}
+                <div className="mb-8">
+                  <h4 className="text-xs font-semibold tracking-widest uppercase mb-3 text-navy border-b border-gold/15 pb-1">
+                    Architectural Specifications & Finishes
+                  </h4>
+                  <ul className="flex flex-col gap-2.5">
+                    {selectedProperty.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-navy/80 font-light">
+                        <CheckCircle2 size={13} className="text-gold mt-0.5 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
 
-              {/* Inquiry Button */}
-              <a
-                href="#contact"
-                onClick={() => setSelectedProperty(null)}
-                className="w-full text-center bg-navy hover:bg-gold text-ivory hover:text-navy py-4 text-xs font-sans tracking-[0.25em] uppercase font-semibold transition-all duration-500 border border-navy hover:border-gold"
+              {/* Request More Information CTA Button */}
+              <button
+                onClick={() => handleRequestInfo(selectedProperty.name)}
+                className="w-full flex items-center justify-center gap-2 bg-navy hover:bg-gold text-ivory hover:text-navy py-4 text-xs font-sans tracking-[0.25em] uppercase font-semibold transition-all duration-300 border border-navy hover:border-gold shadow-lg"
               >
-                Request Private Viewing
-              </a>
+                <span>Request More Information</span>
+                <ArrowRight size={14} />
+              </button>
             </div>
+
           </div>
         </div>
       )}
